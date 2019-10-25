@@ -1,0 +1,15 @@
+{
+  "name": "videochat",
+  "version": "1.0.0",
+  "description": "videochatprueba",
+  "main": "index.js",
+  "dependencies": {
+    "@opentok/client": "^2.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "author": "max",
+  "license": "ISC"
+}
