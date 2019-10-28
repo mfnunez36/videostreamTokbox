@@ -42,10 +42,11 @@
 //     });
 // }
 
+var apiKey = process.env.API_KEY;
+var apiSecret = process.env.API_SECRET;
 
 // Importe el módulo para obtener una función de constructor para un objeto OpenTok
-var OpenTok = require('opentok'),
-opentok = new OpenTok(apiKey, apiSecret);
+var OpenTok = require('opentok'), opentok = new OpenTok(apiKey, apiSecret);
 
 
 
@@ -72,7 +73,7 @@ opentok.createSession({mediaMode:"routed"}, function(err, session) {
 });
   
 // A Session with a location hint
-opentok.createSession({ location:'12.34.56.78' }, function(err, session) {
+opentok.createSession( { location: '12.34.56.78' }, function(err, session) {
     if (err) { 
         return console.log(err);
     }
@@ -82,7 +83,7 @@ opentok.createSession({ location:'12.34.56.78' }, function(err, session) {
 });
 
 // A Session with an automatic archiving
-opentok.createSession( { mediaMode:'routed', archiveMode:'always' }, function(err, session) {
+opentok.createSession( { mediaMode: 'routed', archiveMode: 'always' }, function(err, session) {
     if (err){
         return console.log(err);
     } 
@@ -104,7 +105,7 @@ token = session.generateToken();
 token = session.generateToken({
     role : 'moderator',
     expireTime : (new Date().getTime() / 1000)+(7 * 24 * 60 * 60), // in one week
-    data : 'name=Johnny',
+    data : 'name=prueba',
     initialLayoutClassList : ['focus']
 });
 
@@ -115,8 +116,8 @@ token = session.generateToken({
 var archiveOptions = {
     name: 'Important Presentation',
     hasVideo: false,
-    hasAudio: false,
-    outputMode: 'individual'
+    hasAudio: false//,
+    //outputMode: 'individual'
 };
 
 opentok.startArchive(sessionId, archiveOptions, function(err, archive) {
@@ -178,7 +179,7 @@ archive.delete(function(err) {
 
 
 // También puede obtener una lista de todos los archivos que ha creado (hasta 1000) con su clave API
-opentok.listArchives({offset:100, count:50}, function(error, archives, totalCount) {
+opentok.listArchives( { offset: 100, count: 50 }, function(error, archives, totalCount) {
     if (error) {
         return console.log(error);
     }
@@ -193,7 +194,11 @@ opentok.listArchives({offset:100, count:50}, function(error, archives, totalCoun
 
 
 // Tenga en cuenta que también puede crear una sesión archivada automáticamente
-
+opentok.setArchiveLayout(archiveId, type, null, function (err) {
+    if (err) {
+        return console.log(err);
+    }
+});
 
 
 
@@ -225,6 +230,102 @@ opentok.startBroadcast(broadcastOptions, options, function(error, broadcast) {
     if (error) {
         return console.log(error);
     }
-    
+
     return console.log('Broadcast started: ', broadcast.id);
+});
+
+
+
+
+// Puede detener un pase de transmisión de transmisión en vivo
+opentok.stopBroadcast(broadcastId, function(error, broadcast) {
+    if (error) {
+        return console.log(error);
+    }
+    return console.log('Broadcast stopped: ', broadcast.id);
+});
+
+
+
+
+// También puede obtener una lista de todas las transmisiones que ha creado (hasta 1000) con su clave API
+opentok.listBroadcasts({offset:100, count:50}, function(error, broadcasts, totalCount) {
+    if (error) {
+        return console.log(error);
+    }
+
+    console.log(totalCount + " broadcasts");
+
+    for (var i = 0; i < broadcasts.length; i++) {
+        console.log(broadcasts[i].id);
+    }
+});
+
+
+
+
+// Puede enviar una señal a todos los participantes en una sesión OpenTok
+var sessionId = '2_MX2xMDB-flR1ZSBOb3YgMTkgMTE6MDk6NTggUFNUIDIwMTN-MC2zNzQxNzIxNX2';
+
+opentok.signal(sessionId, null, { 'type': 'chat', 'data': 'Hello!' }, function(error) {
+    if (error) {
+        return console.log(error);
+    }
+});
+
+
+
+// O envíe una señal a un participante específico
+var sessionId = '2_MX2xMDB-flR1ZSBOb3YgMTkgMTE6MDk6NTggUFNUIDIwMTN-MC2zNzQxNzIxNX2';
+var connectionId = '02e80876-02ab-47cd-8084-6ddc8887afbc';
+
+opentok.signal(sessionId, connectionId, { 'type': 'chat', 'data': 'Hello!' }, function(error) {
+    if (error) {
+        return console.log(error);
+    }
+});
+
+
+
+
+// Puede desconectar a los participantes de una sesión OpenTok
+opentok.forceDisconnect(sessionId, connectionId, function(error) {
+    if (error) {
+        return console.log(error);
+    }
+});
+
+
+
+
+// Puede obtener información sobre una transmisión activa en una sesión de OpenTok
+var sessionId = '2_MX6xMDB-fjE1MzE3NjQ0MTM2NzZ-cHVTcUIra3JUa0kxUlhsVU55cTBYL0Y1flB';
+var streamId = '2a84cd30-3a33-917f-9150-49e454e01572';
+
+opentok.getStream(sessionId, streamId, function(error, streamInfo) {
+    if (error) {
+        return console.log(error.message);
+    } else {
+        console.log(stream.id); // '2a84cd30-3a33-917f-9150-49e454e01572'
+        console.log(stream.videoType); // 'camera'
+        console.log(stream.name); // 'Bob'
+        console.log(stream.layoutClassList); // ['main']
+    }
+});
+
+
+
+
+// Para obtener información sobre todas las transmisiones activas en una sesión
+opentok.listStreams(sessionId, function(error, streams) {
+    if (error) {
+        console.log(error.message);
+    } else {
+        streams.map(function(stream) {
+            console.log(stream.id); // '2a84cd30-3a33-917f-9150-49e454e01572'
+            console.log(stream.videoType); // 'camera'
+            console.log(stream.name); // 'Bob'
+            console.log(stream.layoutClassList); // ['main']
+        });
+    }
 });
