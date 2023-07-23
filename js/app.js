@@ -1,6 +1,6 @@
 // var apiKey = '46445182';
-// var sessionId = '1_MX40NjQ0NTE4Mn5-MTU3MTk0Nzk2MDM2NH5iS1IzOTd2QWhGaHQ0QTNXQWE3WXNEVjB-UH4';
-// var token = 'T1==cGFydG5lcl9pZD00NjQ0NTE4MiZzaWc9MmQyZjIyOGExZDgzYmE0N2QxYmZiNTYyNjJmNDQ2Y2JhZDE5ZTJiNzpzZXNzaW9uX2lkPTFfTVg0ME5qUTBOVEU0TW41LU1UVTNNVGswTnprMk1ETTJOSDVpUzFJek9UZDJRV2hHYUhRMFFUTlhRV0UzV1hORVZqQi1VSDQmY3JlYXRlX3RpbWU9MTU3MTk0ODA3NiZub25jZT0wLjgxOTMyMjU3OTEwMDQwNzMmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTU3MTk2OTY3NSZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==';
+// var sessionId = '********';
+// var token = '************';
 
 // // Handling all of our errors here by alerting them
 // function handleError(error) {
@@ -265,7 +265,7 @@ opentok.listBroadcasts({offset:100, count:50}, function(error, broadcasts, total
 
 
 // Puede enviar una señal a todos los participantes en una sesión OpenTok
-var sessionId = '2_MX2xMDB-flR1ZSBOb3YgMTkgMTE6MDk6NTggUFNUIDIwMTN-MC2zNzQxNzIxNX2';
+var sessionId = '************';
 
 opentok.signal(sessionId, null, { 'type': 'chat', 'data': 'Hello!' }, function(error) {
     if (error) {
@@ -276,8 +276,8 @@ opentok.signal(sessionId, null, { 'type': 'chat', 'data': 'Hello!' }, function(e
 
 
 // O envíe una señal a un participante específico
-var sessionId = '2_MX2xMDB-flR1ZSBOb3YgMTkgMTE6MDk6NTggUFNUIDIwMTN-MC2zNzQxNzIxNX2';
-var connectionId = '02e80876-02ab-47cd-8084-6ddc8887afbc';
+var sessionId = '***********';
+var connectionId = '************';
 
 opentok.signal(sessionId, connectionId, { 'type': 'chat', 'data': 'Hello!' }, function(error) {
     if (error) {
@@ -299,8 +299,8 @@ opentok.forceDisconnect(sessionId, connectionId, function(error) {
 
 
 // Puede obtener información sobre una transmisión activa en una sesión de OpenTok
-var sessionId = '2_MX6xMDB-fjE1MzE3NjQ0MTM2NzZ-cHVTcUIra3JUa0kxUlhsVU55cTBYL0Y1flB';
-var streamId = '2a84cd30-3a33-917f-9150-49e454e01572';
+var sessionId = '***********';
+var streamId = '************';
 
 opentok.getStream(sessionId, streamId, function(error, streamInfo) {
     if (error) {
